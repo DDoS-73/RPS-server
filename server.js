@@ -4,7 +4,7 @@ const { createServer } = require("http");
 const httpServer = createServer();
 const io = new Server(httpServer, {
 	cors: {
-		origin: "https://rps-client.vercel.app/",
+		origin: "*",
 		methods: ["GET", "POST"],
 		credentials: true
 	},
