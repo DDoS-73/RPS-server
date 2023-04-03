@@ -7,7 +7,8 @@ const io = new Server(httpServer, {
 		origin: "https://rps-client.vercel.app/",
 		methods: ["GET", "POST"],
 		credentials: true
-	}
+	},
+	transports: ['websocket', 'polling', 'flashsocket'],
 });
 
 const store = {};
@@ -49,17 +50,5 @@ io.on("connection", (socket) => {
 		socket.to(roomID).emit('opponent_move', sign);
 	})
 });
-
-const playRound = (player1, player2) => {
-	if (player1 === player2) {
-		return 'tie';
-	} else if ((player1 === 'rock' && player2 === 'scissors') ||
-		(player1 === 'paper' && player2 === 'rock') ||
-		(player1 === 'scissors' && player2 === 'paper')) {
-		return 'player1';
-	} else {
-		return 'player2';
-	}
-}
 
 io.listen(8000);
