@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
 			store[roomID] = new Map();
 		}
 
-		io.in(roomID).emit('game_start', { started: size === 2 });
+		io.in(roomID).emit('game_start', { started: size >= 2 });
 	})
 
 	socket.on('move', (sign) => {
