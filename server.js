@@ -30,6 +30,15 @@ io.on("connection", (socket) => {
 		socket.to(roomID).emit('opponent_move', sign);
 	});
 
+	socket.on('disconnect', () => {
+		console.log(`Socket ${socket.id} disconnected`);
+		console.log('Socket amount', io.sockets.sockets.size);
+
+		if(io.sockets.sockets.size === 0) {
+			console.log('--------------------------');
+		}
+
+	})
 });
 
 io.listen(8000);
