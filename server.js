@@ -34,6 +34,10 @@ io.on("connection", (socket) => {
 		console.log(`Socket ${socket.id} disconnected`);
 		console.log('Socket amount', io.sockets.sockets.size);
 
+		const roomID = Array.from(socket.rooms)[1];
+		const size = io.sockets.adapter.rooms.get(roomID).size;
+		console.log(`Room ${roomID} size is ${size}`);
+
 		if(io.sockets.sockets.size === 0) {
 			console.log('--------------------------');
 		}
