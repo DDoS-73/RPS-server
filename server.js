@@ -15,6 +15,8 @@ io.on("connection", (socket) => {
 	console.log('New socket connected', socket.id);
 	console.log('Socket amount', io.sockets.sockets.size);
 
+	socket.emit('connection_result', true);
+
 	socket.on("join", (roomID) => {
 		socket.join(roomID);
 		console.log(`Socket ${socket.id} connected to room ${roomID}`);
@@ -30,18 +32,21 @@ io.on("connection", (socket) => {
 		socket.to(roomID).emit('opponent_move', sign);
 	});
 
+	socket.on('disconnecting', () => {
+		const roomID = Array.from(socket.rooms)[1];
+
+		if(roomID) {
+			socket.to(roomID).emit('opponent_leave');
+		}
+	})
+
 	socket.on('disconnect', () => {
 		console.log(`Socket ${socket.id} disconnected`);
 		console.log('Socket amount', io.sockets.sockets.size);
 
-		const roomID = Array.from(socket.rooms)[1];
-		const size = io.sockets.adapter.rooms?.get(roomID)?.size;
-		console.log(`Room ${roomID} size is ${size}`);
-
 		if(io.sockets.sockets.size === 0) {
 			console.log('--------------------------');
 		}
-
 	})
 });
 
